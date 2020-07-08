@@ -2,7 +2,7 @@
 import socket 
 import select 
 import sys 
-from thread import *
+from _thread import *
 
 
 
@@ -39,22 +39,27 @@ server.bind((IP_address, Port))
 server.listen(100) 
 
 list_of_clients = [] 
-
+print("---------------------------------------")
 def clientthread(conn, addr): 
+    print ("66666666666666666666666666")
 
     # sends a message to the client whose user object is conn 
-    conn.send("Welcome to this chatroom!") 
+    
     size = int(conn.recv(2048).decode())
-    f = open(addr+"Pkey","wb")
+    print("++++++++++++++++++++++++++++++++")
+    print(size)
+    print("**********************************")
+    f = open(str(addr)+"Pkey","wb")
     for i in range (size//2048):
-        bytes_read = client_socket.recv(BUFFER_SIZE)
+        bytes_read = conn.recv(2048)
         if not bytes_read:    
             # nothing is received
             # file transmitting is done
             break
         # write to the file the bytes we just received
         f.write(bytes_read)
-
+    mes= "Welcome to this chatroom!"
+    conn.send(mes.encode()) 
 
     while True: 
             try: 
@@ -97,7 +102,9 @@ while True:
     # conn which is a socket object for that user, and addr  
     # which contains the IP address of the client that just  
     # connected"""
+    print("#")
     conn, addr = server.accept() 
+    print("°")
     # """Maintains a list of clients for ease of broadcasting 
     # a message to all available people in the chatroom"""
     list_of_clients.append(conn) 
