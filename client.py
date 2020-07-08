@@ -13,12 +13,13 @@ IP_address = str(sys.argv[1])
 Port = int(sys.argv[2]) 
 server.connect((IP_address, Port))
 
-
-
 f =open("public.pem", "rb")
 
+print("//////////////////////////////////////")
 filesize = os.path.getsize("public.pem")
-server.send(filesize)
+print(filesize)
+print(str(filesize))
+server.send(str(filesize).encode())
 for i in range (filesize//2048):
     
     
@@ -26,7 +27,8 @@ for i in range (filesize//2048):
     if not bytes_read:
             break
     server.sendall(bytes_read)
-    
+
+print("#################")
 # close the socket
 
 # def encrypt(message):
@@ -51,11 +53,13 @@ while True:
     # to send a message, then the if condition will hold true 
     # below.If the user wants to send a message, the else 
     # condition will evaluate as true"""
+    print("wwwwwwwwwwwwwwwwwwwwwww")
     read_sockets,write_socket, error_socket = select.select(sockets_list,[],[]) 
-
+    print("eeeeeeeeeeeeeeeeeeeeeeeeeeeee")
     for socks in read_sockets: 
         if socks == server: 
-            message = socks.recv(2048) 
+            print("llego")
+            message = socks.recv(2048).decode() 
             print (message) 
         else: 
             message = sys.stdin.readline() 
@@ -63,4 +67,6 @@ while True:
             sys.stdout.write("<You>") 
             sys.stdout.write(message) 
             sys.stdout.flush() 
+
+print("holi")
 server.close() 
